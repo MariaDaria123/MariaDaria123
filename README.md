@@ -1,4 +1,4 @@
-# Maria Daria
+# Maria Dejeu
 
 Applied Machine Intelligence • Quantitative Systems Engineering • AI Architecture  
 
