@@ -4,89 +4,563 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Maria Daria — Portfolio</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #050505;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent-1: #6366f1; /* Indigo */
+      --accent-2: #ec4899; /* Pink */
+      --accent-3: #8b5cf6; /* Violet */
+      --accent-4: #0ea5e9; /* Sky blue */
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(255, 255, 255, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Animated Background Gradient */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+                  radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15), transparent 25%),
+                  radial-gradient(circle at 50% 80%, rgba(14, 165, 233, 0.1), transparent 30%);
+      filter: blur(60px);
+      animation: pulseBg 15s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseBg {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 80px;
+      animation: fadeInDown 1s ease forwards;
+      opacity: 0;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-bottom: 80px;
+      animation: fadeInUp 1s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      background: rgba(99, 102, 241, 0.1);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+    }
+
+    h1 .gradient-text {
+      background: linear-gradient(to right, var(--accent-1), var(--accent-2), var(--accent-4));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 5s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+
+    .hero-desc {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    .hero-desc strong {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* Buttons */
+    .actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease 0.4s forwards;
+      opacity: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+      color: white;
+      box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      border-color: var(--card-hover-border);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-secondary:hover i {
+      transform: translateX(4px);
+    }
+
+    .btn i {
+      margin-left: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    /* Code Block Decoration */
+    .code-snippet {
+      margin-top: 60px;
+      background: rgba(10, 10, 15, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #a8b2d1;
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 1s ease 0.6s forwards;
+      opacity: 0;
+      position: relative;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+    }
+
+    .code-snippet::before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 20px 0 0 #eab308, 40px 0 0 #22c55e;
+      margin-bottom: 16px;
+    }
+
+    .code-snippet .keyword { color: #c678dd; }
+    .code-snippet .string { color: #98c379; }
+    .code-snippet .function { color: #61afef; }
+    .code-snippet .comment { color: #5c6370; font-style: italic; }
+
+    /* Bento Grid (Cards) */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 80px;
+      animation: fadeInUp 1s ease 0.8s forwards;
+      opacity: 0;
+    }
+
+    /* Hover 3D effect applied via JS */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      transform: translateZ(30px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--accent-1);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .card-link:hover {
+      color: var(--accent-4);
+    }
+
+    .card-link svg {
+      width: 16px;
+      height: 16px;
+      margin-left: 6px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-link svg {
+      transform: translateX(4px) translateY(-4px);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 100px;
+      padding-top: 30px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #64748b;
+      animation: fadeInUp 1s ease 1s forwards;
+      opacity: 0;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 2.5rem; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; }
+      nav { display: none; } /* Could add a hamburger menu here */
+    }
+  </style>
 </head>
+<body>
 
-<body style="
-  margin:0;
-  background:#0b1220;
-  color:#e5e7eb;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-">
-  <div style="max-width:900px; margin:0 auto; padding:72px 20px;">
+  <div class="bg-animation"></div>
 
-    <div style="display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
-      <div style="font-weight:700; letter-spacing:0.2px;">Maria Daria</div>
-      <div style="display:flex; gap:14px; font-size:14px; opacity:0.9; flex-wrap:wrap;">
-        <a href="projects.html" style="color:#e5e7eb; text-decoration:none;">Projects</a>
-        <a href="talks.html" style="color:#e5e7eb; text-decoration:none;">Talks</a>
-        <a href="https://github.com/MariaDaria123" style="color:#e5e7eb; text-decoration:none;">GitHub</a>
+  <div class="container">
+    <header>
+      <div class="logo">Maria Daria Dejeu</div>
+      <nav>
+        <a href="projects.html">Projects</a>
+        <a href="talks.html">Talks</a>
+        <a href="https://github.com/MariaDaria123" target="_blank">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="role-badge">> System Status: Online & Optmizing</div>
+        <h1>
+          Applied Machine Intelligence<br/>
+          <span class="gradient-text">Quantitative Systems</span> Architecture
+        </h1>
+        
+        <p class="hero-desc">
+          I design and deploy production-grade AI systems at the intersection of <strong>quantitative modeling</strong>, <strong>signal intelligence</strong>, and <strong>large-scale digital infrastructure</strong> — spanning enterprise microservices, robotics-oriented signal classification, and ML-driven molecular screening pipelines.
+        </p>
+
+        <div class="actions">
+          <a href="projects.html" class="btn btn-primary">
+            Initialize View_Projects
+          </a>
+          <a href="talks.html" class="btn btn-secondary">
+            Talks & Festivals <i>→</i>
+          </a>
+          <a href="https://github.com/MariaDaria123" target="_blank" class="btn btn-secondary">
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/maria-daria-dejeu-77b3a0387/" target="_blank" class="btn btn-secondary">
+            LinkedIn
+          </a>
+        </div>
+
+        <div class="code-snippet">
+<span class="comment">// Core infrastructure instantiation</span>
+<span class="keyword">class</span> <span class="function">MariaDaria</span> <span class="keyword">extends</span> <span class="function">AI_Architect</span> {
+  <span class="keyword">constructor</span>() {
+    <span class="keyword">super</span>();
+    <span class="keyword">this</span>.skills = [<span class="string">'Machine Learning'</span>, <span class="string">'Signal Processing'</span>, <span class="string">'Distributed Systems'</span>];
+    <span class="keyword">this</span>.status = <span class="string">'Building the future'</span>;
+  }
+  
+  <span class="keyword">async</span> <span class="function">deploySolutions</span>() {
+    <span class="keyword">await</span> <span class="keyword">this</span>.<span class="function">optimizePipelines</span>();
+    <span class="keyword">return</span> <span class="string">'Production ready.'</span>;
+  }
+}
+        </div>
+      </section>
+
+      <section class="bento-grid" id="cards">
+        
+        <div class="card">
+          <div class="card-content">
+            <div class="card-icon">💻</div>
+            <h3 class="card-title">Projects & Repositories</h3>
+            <p class="card-desc">Code-backed work with clear GitHub links, technical summaries, and system architectures.</p>
+            <a href="projects.html" class="card-link">
+              Explore codebase
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-content">
+            <div class="card-icon">🎙️</div>
+            <h3 class="card-title">Talks & Festivals</h3>
+            <p class="card-desc">Conferences, public work, invited demonstrations, and distinguished institutional programs.</p>
+            <a href="talks.html" class="card-link">
+              View events
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-content">
+            <div class="card-icon">🌌</div>
+            <h3 class="card-title">Research</h3>
+            <p class="card-desc">Open for research collaborations, internships, or high-impact engineering discussions.</p>
+            <a href="mailto:mariadariadejeu@gmail.com" class="card-link">
+              Initiate contact
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <footer>
+      <div class="status">
+        <div class="pulse"></div>
+        <span>Systems operational</span>
       </div>
-    </div>
-
-    <h1 style="margin:42px 0 10px; font-size:44px; line-height:1.1; color:#fff;">
-      Applied Machine Intelligence<br/>
-      Quantitative Systems Engineering<br/>
-      AI Architecture
-    </h1>
-
-    <p style="max-width:720px; font-size:16px; line-height:1.7; color:#cbd5e1;">
-      I design and deploy production-grade AI systems at the intersection of quantitative modeling, signal intelligence,
-      and large-scale digital infrastructure — spanning enterprise microservices, robotics-oriented signal classification,
-      and ML-driven molecular screening pipelines.
-    </p>
-
-    <div style="margin-top:22px; display:flex; gap:10px; flex-wrap:wrap;">
-      <a href="projects.html" style="background:#4f46e5; color:white; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600;">
-        View Projects →
-      </a>
-      <a href="talks.html" style="border:1px solid #23314d; color:#e5e7eb; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600;">
-        Talks & Festivals →
-      </a>
-      <a href="https://www.linkedin.com/in/maria-daria-dejeu-77b3a0387/" style="border:1px solid #23314d; color:#e5e7eb; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600;">
-        LinkedIn
-      </a>
-      <a href="mailto:mariadariadejeu@gmail.com" style="border:1px solid #23314d; color:#e5e7eb; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:600;">
-        Email
-      </a>
-    </div>
-
-    <div style="margin-top:60px; display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:14px;">
-      <div style="border:1px solid #23314d; border-radius:14px; padding:16px; background:#0b1220;">
-        <div style="font-weight:700; color:#fff;">Projects</div>
-        <div style="margin-top:8px; font-size:14px; color:#cbd5e1; line-height:1.6;">
-          Code-backed work with clear GitHub links and short technical summaries.
-        </div>
-        <div style="margin-top:12px;">
-          <a href="projects.html" style="color:#93c5fd; text-decoration:none; font-size:14px;">Open projects →</a>
-        </div>
+      <div>
+        © <span id="year"></span> Maria Daria Dejeu // Coded with next-gen precision.
       </div>
-
-      <div style="border:1px solid #23314d; border-radius:14px; padding:16px; background:#0b1220;">
-        <div style="font-weight:700; color:#fff;">Talks & Festivals</div>
-        <div style="margin-top:8px; font-size:14px; color:#cbd5e1; line-height:1.6;">
-          Conferences, public work, invited demos, and institutional programs.
-        </div>
-        <div style="margin-top:12px;">
-          <a href="talks.html" style="color:#93c5fd; text-decoration:none; font-size:14px;">Open events →</a>
-        </div>
-      </div>
-
-      <div style="border:1px solid #23314d; border-radius:14px; padding:16px; background:#0b1220;">
-        <div style="font-weight:700; color:#fff;">Contact</div>
-        <div style="margin-top:8px; font-size:14px; color:#cbd5e1; line-height:1.6;">
-          For research, internships, or collaborations.
-        </div>
-        <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
-          <a href="mailto:mariadariadejeu@gmail.com" style="color:#93c5fd; text-decoration:none; font-size:14px;">Email →</a>
-          <a href="https://github.com/MariaDaria123" style="color:#93c5fd; text-decoration:none; font-size:14px;">GitHub →</a>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top:60px; font-size:12px; color:#64748b;">
-      © <script>document.write(new Date().getFullYear())</script> Maria Daria
-    </div>
-
+    </footer>
   </div>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // 3D Card Hover Effect and Glow matching mouse position
+    const cards = document.querySelectorAll('.card');
+    
+    document.getElementById('cards').onmousemove = e => {
+      for(const card of cards) {
+        const rect = card.getBoundingClientRect(),
+              x = e.clientX - rect.left,
+              y = e.clientY - rect.top;
+
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      }
+    };
+
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; // x position within the element.
+        const y = e.clientY - rect.top;  // y position within the element.
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      });
+    });
+  </script>
 </body>
 </html>
+
